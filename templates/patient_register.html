@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Register</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-violet-800 to-purple-700">
+
+<div class="w-full max-w-md p-8 bg-white rounded-2xl shadow-2xl">
+    <h2 class="text-3xl font-bold text-center text-violet-700 mb-6">
+        Create Account
+    </h2>
+
+    <div class="space-y-4">
+        <input type="text" id="reg-name" placeholder="Full Name"
+               class="w-full px-4 py-3 border rounded-lg">
+
+        <input type="email" id="reg-email" placeholder="Email"
+               class="w-full px-4 py-3 border rounded-lg">
+
+        <input type="password" id="reg-password" placeholder="Password"
+               class="w-full px-4 py-3 border rounded-lg">
+
+        <button type="button"
+                onclick="firebaseRegister()"
+                class="w-full py-3 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 transition">
+            Register
+        </button>
+        <a href="{{ url_for('patient_login') }}"
+   class="block w-full text-center py-3 mt-3 bg-violet-700 text-white font-bold rounded-xl hover:bg-violet-800 transition">
+    Go to Login
+</a>
+    </div>
+
+    <p class="mt-6 text-center text-sm">
+        Already have an account?
+        <a href="{{ url_for('patient_login_form') }}"
+           class="text-violet-700 font-semibold">
+            Login here
+        </a>
+    </p>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+<script>
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyB1aeBuOwvpS2ZVCI6oc0LuEyiv7sru7rw",
+  authDomain: "healthcare-assistant-688ee.firebaseapp.com",
+  projectId: "healthcare-assistant-688ee",
+  storageBucket: "healthcare-assistant-688ee.firebasestorage.app",
+  messagingSenderId: "890346236226",
+  appId: "1:890346236226:web:263c90d1a61648c15780db",
+  measurementId: "G-JXV11W4HF6"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+function firebaseRegister() {
+    const name = document.getElementById("reg-name").value;
+    const email = document.getElementById("reg-email").value;
+    const password = document.getElementById("reg-password").value;
+
+    auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            alert("Registration successful! Please login.");
+            window.location.href = "/patient_login_form";
+        })
+        .catch(error => {
+            alert(error.message);
+        });
+}
+</script>
+
+</body>
+</html>
